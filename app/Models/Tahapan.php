@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tahapan extends Model
 {
     protected $fillable = ['nama'];
+    protected $table = 'tahapan';
 
-    public function laporans()
+    public function laporan()
     {
-        return $this->hasMany(Laporan::class);
+        return $this->hasMany(Laporan::class, 'tahapan_id');
     }
 }

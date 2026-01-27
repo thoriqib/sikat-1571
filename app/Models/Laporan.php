@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Report extends Model
+class Laporan extends Model
 {
     protected $fillable = [
         'iku_id',
@@ -12,17 +12,30 @@ class Report extends Model
         'judul',
         'triwulan',
         'tahun',
+        'file_path',
+        'file_original_name',
+        'file_size',
+        'file_mime',
         'isi',
-        'path'
     ];
+
+    protected $table = 'laporan';
 
     public function iku()
     {
-        return $this->belongsTo(Iku::class);
+        return $this->belongsTo(Iku::class,'iku_id');
     }
 
     public function tahapan()
     {
-        return $this->belongsTo(Tahapan::class);
+        return $this->belongsTo(Tahapan::class, 'tahapan_id');
+    }
+
+    // Helper untuk URL file
+    public function getFileUrlAttribute()
+    {
+        return $this->file_path
+            ? asset('storage/' . $this->file_path)
+            : null;
     }
 }

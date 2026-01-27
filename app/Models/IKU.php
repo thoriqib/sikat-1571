@@ -6,10 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class IKU extends Model
 {
-    protected $fillable = ['nama'];
+    protected $fillable = [
+        'nama',
+        'satuan',
+        'target',
+        'tahun',
+    ];
 
-    public function laporans()
+    protected $table = 'iku';
+
+    const SATUAN = ['Persen', 'Poin'];
+
+    public function laporan()
     {
-        return $this->hasMany(Laporan::class);
+        return $this->hasMany(Laporan::class, 'iku_id');
     }
 }

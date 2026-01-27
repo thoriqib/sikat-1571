@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('kode')->unique();
             $table->string('nama');
+            $table->enum('satuan', ['Persen', 'Poin']);
+            $table->decimal('target', 8, 2);
+            $table->year('tahun');
             $table->timestamps();
         });
     }
