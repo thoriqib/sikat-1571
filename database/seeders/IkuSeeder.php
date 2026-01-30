@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Iku;
 
-class ikueeder extends Seeder
+class IkuSeeder extends Seeder
 {
     public function run(): void
     {

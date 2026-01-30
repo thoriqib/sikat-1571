@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Tahapan;
 
-class tahapaneeder extends Seeder
+class TahapanSeeder extends Seeder
 {
     public function run(): void
     {

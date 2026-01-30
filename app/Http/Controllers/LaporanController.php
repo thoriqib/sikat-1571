@@ -21,21 +21,29 @@ class LaporanController extends Controller
 
 public function store(Request $request)
 {
-    $path = $request->file('file')
-        ->store('laporan','public');
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'file' => 'required|mimes:pdf'
+    ]);
+
+    $path = $request->file('file')->store('laporan', 'public');
 
     Laporan::updateOrCreate(
         [
             'iku_id' => $request->iku_id,
             'tahapan_id' => $request->tahapan_id,
             'triwulan' => $request->triwulan,
-            'tahun' => $request->tahun
+            'tahun' => $request->tahun,
         ],
-        ['file_path' => $path]
+        [
+            'judul' => $request->judul,
+            'file_path' => $path
+        ]
     );
 
-    return redirect()->route('iku.show', $request->iku_id)
-        ->with('success','Laporan berhasil diupload');
+    return redirect()
+        ->route('iku.show', $request->iku_id)
+        ->with('success', 'Laporan berhasil diupload');
 }
 
 }
