@@ -21,4 +21,10 @@ class IKU extends Model
     {
         return $this->hasMany(Laporan::class, 'iku_id');
     }
+
+    public function penanggungJawab()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
+
 }

@@ -45,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function iku()
+{
+    return $this->hasMany(Iku::class);
+}
 }
