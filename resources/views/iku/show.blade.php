@@ -40,26 +40,50 @@
 
                             <td>
                                 @if ($laporanItem)
-                                <a href="#"
-                                class="text-success"
-                                data-toggle="modal"
-                                data-target="#pdfModal"
-                                data-file="{{ asset('storage/' . $laporanItem->file_path) }}">
-                                    <i class="fas fa-check-circle"></i>
-                                </a>
+                                    <div class="btn-group">
 
-                            @else
-                                <a href="{{ route('laporan.create', [
+                                        {{-- Preview --}}
+                                        <button type="button"
+                                                class="btn btn-sm btn-success btn-preview"
+                                                data-toggle="modal"
+                                                data-target="#pdfModal"
+                                                data-file="{{ asset('storage/' . $laporanItem->file_path) }}"
+                                                title="Preview">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+
+                                        {{-- Edit --}}
+                                        <a href="{{ route('laporan.edit', $laporanItem->id) }}"
+                                           class="btn btn-sm btn-warning"
+                                           title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        {{-- Hapus --}}
+                                        <form action="{{ route('laporan.destroy', $laporanItem->id) }}"
+                                              method="POST"
+                                              onsubmit="return confirm('Yakin hapus laporan ini?')"
+                                              style="display:inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    {{-- Upload --}}
+                                    <a href="{{ route('laporan.create', [
                                         'iku_id' => $iku->id,
                                         'tahapan_id' => $t->id,
                                         'triwulan' => $tw,
                                         'tahun' => $tahun
                                     ]) }}"
-                                class="text-danger">
-                                    <i class="fas fa-times-circle"></i>
-                                </a>
-                            @endif
-
+                                    class="btn btn-sm btn-outline-danger"
+                                    title="Upload">
+                                        <i class="fas fa-upload"></i>
+                                    </a>
+                                @endif
                             </td>
                         @endforeach
                     </tr>
@@ -70,15 +94,12 @@
 </div>
 
 {{-- Modal Preview PDF --}}
-<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" data-title="{{ $iku->nama }} - TW {{ $tw }}"
->
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">
-            Preview Laporan
-        </h5>
+        <h5 class="modal-title">Preview Laporan</h5>
         <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
         </button>
@@ -90,7 +111,7 @@
             src=""
             width="100%"
             height="600px"
-            style="border: none;">
+            style="border:none;">
         </iframe>
       </div>
 
@@ -98,12 +119,13 @@
   </div>
 </div>
 
+@endsection
+
 @push('scripts')
 <script>
     $('#pdfModal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget);
         let file = button.data('file');
-
         $('#pdfFrame').attr('src', file);
     });
 
@@ -112,6 +134,3 @@
     });
 </script>
 @endpush
-
-
-@endsection

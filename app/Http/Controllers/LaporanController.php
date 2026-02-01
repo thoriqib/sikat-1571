@@ -46,5 +46,53 @@ public function store(Request $request)
         ->with('success', 'Laporan berhasil diupload');
 }
 
+public function edit(Laporan $laporan)
+{
+    return view('laporan.edit', compact('laporan'));
+}
+
+
+public function update(Request $request, Laporan $laporan)
+{
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'file'  => 'nullable|mimes:pdf|max:10240'
+    ]);
+
+    // Jika upload file baru
+    if ($request->hasFile('file')) {
+
+        // hapus file lama
+        if ($laporan->file_path && Storage::disk('public')->exists($laporan->file_path)) {
+            Storage::disk('public')->delete($laporan->file_path);
+        }
+
+        // simpan file baru
+        $laporan->file_path = $request->file('file')
+            ->store('laporan', 'public');
+    }
+
+    $laporan->update([
+        'judul' => $request->judul
+    ]);
+
+    return redirect()
+        ->route('iku.show', [$laporan->iku_id])
+        ->with('success', 'Dokumen berhasil diperbarui');
+}
+
+public function destroy(Laporan $laporan)
+{
+    if ($laporan->file_path && Storage::disk('public')->exists($laporan->file_path)) {
+        Storage::disk('public')->delete($laporan->file_path);
+    }
+
+    $laporan->delete();
+
+    return back()->with('success', 'Dokumen berhasil dihapus');
+}
+
+
+
 }
 
