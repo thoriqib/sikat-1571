@@ -11,11 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('iku', function (Blueprint $table) {
+        Schema::create('iku_user', function (Blueprint $table) {
+    $table->id();
+
+    $table->foreignId('iku_id')
+        ->constrained('iku')
+        ->cascadeOnDelete();
+
     $table->foreignId('user_id')
-          ->after('id')
-          ->constrained('users')
-          ->onDelete('cascade');
+        ->constrained('users')
+        ->cascadeOnDelete();
+
+    $table->timestamps();
+
+    // mencegah duplikat
+    $table->unique(['iku_id', 'user_id']);
 });
 
     }
@@ -25,8 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('iku', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };

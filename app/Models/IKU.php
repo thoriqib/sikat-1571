@@ -4,27 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IKU extends Model
+class Iku extends Model
 {
-    protected $fillable = [
-        'nama',
-        'satuan',
-        'target',
-        'tahun',
-    ];
-
     protected $table = 'iku';
 
-    const SATUAN = ['Persen', 'Poin'];
+    protected $fillable = [
+        'kode', 'nama', 'satuan', 'target', 'tahun'
+    ];
+
+
+    public function pjs()
+    {
+        return $this->belongsToMany(User::class, 'iku_user');
+    }
 
     public function laporan()
     {
-        return $this->hasMany(Laporan::class, 'iku_id');
+        return $this->hasMany(Laporan::class);
     }
-
-    public function penanggungJawab()
-{
-    return $this->belongsTo(User::class, 'user_id');
 }
 
-}

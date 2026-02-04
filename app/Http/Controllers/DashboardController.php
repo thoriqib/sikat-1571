@@ -10,24 +10,32 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $tahun = 2026;
-        $totalTahapan = Tahapan::count();
-        $totalTriwulan = 4;
-        $totalWajib = $totalTahapan * $totalTriwulan; // 16
+        $user = auth()->user();
+        $tahun = now()->year;
 
-        $iku = Iku::with(['laporan' => function ($q) use ($tahun) {
-            $q->where('tahun', $tahun)
-              ->whereNotNull('file_path');
-        }])->get();
+        if ($user->role === 'admin') {
+            return $this->adminDashboard($tahun);
+        }
 
-        $iku->map(function ($iku) use ($totalWajib) {
-            $iku->terisi = $iku->laporan->count();
-            $iku->persentase = round(($iku->terisi / $totalWajib) * 100, 1);
-            return $iku;
-        });
+        return $this->pjDashboard($user, $tahun);
+    }
 
-        $totalFile = Laporan::whereNotNull('file_path')->count();
+    protected function adminDashboard($tahun)
+    {
+        $ikus = Iku::with(['laporan'])
+            ->orderBy('kode')
+            ->get();
 
-        return view('dashboard', compact('iku','totalFile','tahun'));
+        return view('dashboard.admin', compact('ikus', 'tahun'));
+    }
+
+    protected function pjDashboard($user, $tahun)
+    {
+        $ikus = Iku::with(['laporan'])
+            ->where('user_id', $user->id)
+            ->get();
+
+        return view('dashboard.pj', compact('ikus', 'tahun'));
     }
 }
+
