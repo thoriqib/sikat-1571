@@ -11,18 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tahapan', function (Blueprint $table) {
+        Schema::create('iku_user', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('kegiatan_id')
-                ->constrained('kegiatan')
+            $table->foreignId('iku_id')
+                ->constrained('iku')
                 ->cascadeOnDelete();
 
-            $table->string('nama');
-            $table->unsignedTinyInteger('urutan');
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
 
             $table->timestamps();
+
+            $table->unique(['iku_id', 'user_id']);
         });
+
     }
 
     /**
@@ -30,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tahapan');
+        Schema::dropIfExists('iku_user');
     }
 };

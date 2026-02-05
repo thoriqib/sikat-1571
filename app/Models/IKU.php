@@ -17,8 +17,13 @@ class IKU extends Model
 
     const SATUAN = ['Persen', 'Poin'];
 
-    public function laporan()
+    public function kegiatan()
     {
-        return $this->hasMany(Laporan::class, 'iku_id');
+        return $this->hasMany(Kegiatan::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'iku_user');
     }
 }

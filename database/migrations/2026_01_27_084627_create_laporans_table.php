@@ -10,24 +10,40 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
+    {  
         Schema::create('laporan', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->foreignId('iku_id')
-                ->constrained('iku')
+
+            $table->foreignId('kegiatan_id')
+                ->constrained('kegiatan')
                 ->cascadeOnDelete();
+
             $table->foreignId('tahapan_id')
                 ->constrained('tahapan')
                 ->cascadeOnDelete();
-                $table->enum('triwulan', ['I', 'II', 'III', 'IV']);
+
+            $table->enum('triwulan', ['I', 'II', 'III', 'IV']);
             $table->year('tahun');
+
+            $table->string('judul');
             $table->text('isi')->nullable();
             $table->string('file_path')->nullable();
             $table->string('file_original_name')->nullable();
             $table->integer('file_size')->nullable();
             $table->string('file_mime')->nullable();
+
+            $table->foreignId('uploaded_by')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
             $table->timestamps();
+
+            $table->unique([
+                'kegiatan_id',
+                'tahapan_id',
+                'triwulan',
+                'tahun'
+            ]);
         });
     }
 

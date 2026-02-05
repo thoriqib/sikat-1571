@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Laporan extends Model
 {
     protected $fillable = [
-        'iku_id',
+        'kegiatan_id',
         'tahapan_id',
         'judul',
         'triwulan',
@@ -17,6 +17,7 @@ class Laporan extends Model
         'file_size',
         'file_mime',
         'isi',
+        'uploaded_by'
     ];
 
     protected $table = 'laporan';
@@ -29,6 +30,11 @@ class Laporan extends Model
     public function tahapan()
     {
         return $this->belongsTo(Tahapan::class, 'tahapan_id');
+    }
+
+    public function uploader()
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
     }
 
     // Helper untuk URL file
