@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'uploaded_by');
     }
+
+    public function kegiatan()
+    {
+        return $this->hasMany(Kegiatan::class);
+    }
 }

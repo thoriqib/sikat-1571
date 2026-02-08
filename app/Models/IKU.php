@@ -22,8 +22,5 @@ class IKU extends Model
         return $this->hasMany(Kegiatan::class);
     }
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'iku_user');
-    }
+
 }

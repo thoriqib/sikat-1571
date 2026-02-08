@@ -17,6 +17,9 @@ return new class extends Migration
                 ->constrained('iku')
                 ->cascadeOnDelete();
             $table->string('nama');
+            $table->foreignId('pj_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

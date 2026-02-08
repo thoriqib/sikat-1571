@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kegiatan extends Model
 {
+    protected $table = 'kegiatan';  
     public function iku()
     {
         return $this->belongsTo(IKU::class);
@@ -19,5 +20,9 @@ class Kegiatan extends Model
     public function laporan()
     {
         return $this->hasMany(Laporan::class);
+    }
+    public function pj()
+    {
+        return $this->belongsTo(User::class);
     }
 }
