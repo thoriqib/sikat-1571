@@ -9,16 +9,21 @@ class TahapanSeeder extends Seeder
 {
     public function run(): void
     {
-        $data = [
-            'Persiapan',
-            'Pengumpulan Data',
-            'Pengolahan dan Analisis',
-            'Diseminasi dan Evaluasi',
-        ];
+        $data = [];
 
-        foreach ($data as $nama) {
+        for ($i = 1; $i <= 51; $i++) {
+            $data[] = ['nama' => 'Persiapan', 'kegiatan_id' => $i, 'urutan' => 1];
+            $data[] = ['nama' => 'Pengumpulan Data', 'kegiatan_id' => $i, 'urutan' => 2];
+            $data[] = ['nama' => 'Pengolahan dan Analisis', 'kegiatan_id' => $i, 'urutan' => 3];
+            $data[] = ['nama' => 'Diseminasi dan Evaluasi', 'kegiatan_id' => $i, 'urutan' => 4];
+        }
+
+
+        foreach ($data as $item) {
             Tahapan::create([
-                'nama' => $nama,
+                'nama' => $item['nama'],
+                'kegiatan_id' => $item['kegiatan_id'],
+                'urutan' => $item['urutan']
             ]);
         }
     }

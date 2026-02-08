@@ -148,7 +148,7 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'salman.assad@bps.go.id'],
             [
-                'name' => 'Asrifah',
+                'name' => 'Salman Assad Ibrahim',
                 'role' => 'user',
                 'password' => Hash::make('12345678'),
             ]
