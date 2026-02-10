@@ -19,7 +19,7 @@ class IKU extends Model
 
     public function kegiatan()
     {
-        return $this->hasMany(Kegiatan::class);
+        return $this->hasMany(Kegiatan::class, 'iku_id');
     }
 
 

@@ -11,23 +11,35 @@ class DashboardController extends Controller
     public function index()
     {
         $tahun = 2026;
-        $totalTahapan = Tahapan::count();
-        $totalTriwulan = 4;
-        $totalWajib = $totalTahapan * $totalTriwulan; // 16
 
-        $iku = Iku::with(['laporan' => function ($q) use ($tahun) {
-            $q->where('tahun', $tahun)
-              ->whereNotNull('file_path');
-        }])->get();
+        // hitung total file laporan yang sudah diupload
+        $totalFile = Laporan::where('tahun', $tahun)
+            ->whereNotNull('link')
+            ->count();
 
-        $iku->map(function ($iku) use ($totalWajib) {
-            $iku->terisi = $iku->laporan->count();
-            $iku->persentase = round(($iku->terisi / $totalWajib) * 100, 1);
-            return $iku;
-        });
+        $iku = Iku::withCount('kegiatan')->get();
 
-        $totalFile = Laporan::whereNotNull('file_path')->count();
-
-        return view('dashboard', compact('iku','totalFile','tahun'));
+        return view('dashboard', compact(
+            'iku',
+            'tahun',
+            'totalFile'
+        ));
     }
+
+    public function kegiatan(Iku $iku)
+    {
+        $tahun = 2026;
+
+        $kegiatan = $iku->kegiatan()
+            ->withCount([
+                'laporan as laporan_terisi' => function ($q) use ($tahun) {
+                    $q->where('tahun', $tahun)
+                    ->whereNotNull('link');
+                }
+            ])
+            ->get();
+
+        return view('kegiatan.index', compact('iku', 'kegiatan', 'tahun'));
+    }
+
 }

@@ -12,20 +12,18 @@ class Laporan extends Model
         'judul',
         'triwulan',
         'tahun',
-        'file_path',
-        'file_original_name',
-        'file_size',
-        'file_mime',
+        'link',
         'isi',
         'uploaded_by'
     ];
 
     protected $table = 'laporan';
 
-    public function iku()
+    public function kegiatan()
     {
-        return $this->belongsTo(Iku::class,'iku_id');
+        return $this->belongsTo(Kegiatan::class);
     }
+
 
     public function tahapan()
     {
