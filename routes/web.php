@@ -59,11 +59,21 @@ Route::get('/api/kegiatan/{kegiatan}/tahapan', function ($kegiatanId) {
 // =====================
 // Laporan (Upload)
 // =====================
-Route::get('laporan/{laporan}/edit', [LaporanController::class, 'edit'])->name('laporan.edit');
-Route::put('laporan/{laporan}', [LaporanController::class, 'update'])->name('laporan.update');
-Route::delete('laporan/{laporan}', [LaporanController::class, 'destroy'])->name('laporan.destroy');
+
+    
 Route::get('/laporan/create', [LaporanController::class, 'create'])
     ->name('laporan.create');
 Route::post('/laporan/store', [LaporanController::class, 'store'])
     ->name('laporan.store');
+// Edit & Update
+Route::get('/laporan/{laporan}/edit', [LaporanController::class, 'edit'])
+    ->name('laporan.edit');
+
+Route::put('/laporan/{laporan}', [LaporanController::class, 'update'])
+    ->name('laporan.update');
+
+// Delete
+Route::delete('/laporan/{laporan}', [LaporanController::class, 'destroy'])
+    ->name('laporan.destroy');
+
 

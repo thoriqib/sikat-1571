@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table->string('judul');
             $table->text('isi')->nullable();
-            $table->string('link');
+            $table->string('link_laporan');
 
             $table->foreignId('uploaded_by')
                 ->constrained('users')

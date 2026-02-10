@@ -14,7 +14,7 @@ class DashboardController extends Controller
 
         // hitung total file laporan yang sudah diupload
         $totalFile = Laporan::where('tahun', $tahun)
-            ->whereNotNull('link')
+            ->whereNotNull('link_laporan')
             ->count();
 
         $iku = Iku::withCount('kegiatan')->get();
@@ -34,12 +34,19 @@ class DashboardController extends Controller
             ->withCount([
                 'laporan as laporan_terisi' => function ($q) use ($tahun) {
                     $q->where('tahun', $tahun)
-                    ->whereNotNull('link');
+                    ->whereNotNull('link_laporan');
                 }
             ])
             ->get();
 
-        return view('kegiatan.index', compact('iku', 'kegiatan', 'tahun'));
+        $totalFile = Laporan::where('tahun', $tahun)
+                    ->whereNotNull('link_laporan')
+                    ->whereHas('kegiatan', function ($q) use ($iku) {
+                        $q->where('iku_id', $iku->id);
+                    })
+                    ->count();
+
+        return view('kegiatan.index', compact('iku', 'kegiatan', 'tahun', 'totalFile'));
     }
 
 }

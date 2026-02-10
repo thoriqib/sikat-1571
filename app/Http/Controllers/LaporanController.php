@@ -52,7 +52,7 @@ public function store(Request $request)
         'triwulan'    => 'required',
         'tahun'       => 'required|integer|min:2020',
         'judul'       => 'required|string|max:255',
-        'link'        => 'required|url'  
+        'link_laporan'        => 'required|url'  
     ]);
 
     // =====================
@@ -73,7 +73,7 @@ public function store(Request $request)
         'triwulan'    => $request->triwulan,
         'tahun'       => $request->tahun,
         'judul'       => $request->judul,
-        'link'  => $request->link,
+        'link_laporan'  => $request->link_laporan,
         'uploaded_by'=> auth()->id(),
     ]);
 
@@ -93,49 +93,38 @@ public function store(Request $request)
 
 public function edit(Laporan $laporan)
 {
+    $laporan->load(['kegiatan.iku', 'tahapan']);
+
     return view('laporan.edit', compact('laporan'));
 }
-
 
 public function update(Request $request, Laporan $laporan)
 {
     $request->validate([
-        'judul' => 'required|string|max:255',
-        'file'  => 'nullable|mimes:pdf|max:10240'
+        'link_laporan' => 'required|url',
     ]);
 
-    // Jika upload file baru
-    if ($request->hasFile('file')) {
-
-        // hapus file lama
-        if ($laporan->file_path && Storage::disk('public')->exists($laporan->file_path)) {
-            Storage::disk('public')->delete($laporan->file_path);
-        }
-
-        // simpan file baru
-        $laporan->file_path = $request->file('file')
-            ->store('laporan', 'public');
-    }
-
     $laporan->update([
-        'judul' => $request->judul
+        'link_laporan' => $request->link_laporan,
     ]);
 
     return redirect()
-        ->route('iku.show', [$laporan->iku_id])
-        ->with('success', 'Dokumen berhasil diperbarui');
+        ->route('kegiatan.show', $laporan->kegiatan_id)
+        ->with('success', 'Laporan berhasil diperbarui');
 }
+
 
 public function destroy(Laporan $laporan)
 {
-    if ($laporan->file_path && Storage::disk('public')->exists($laporan->file_path)) {
-        Storage::disk('public')->delete($laporan->file_path);
-    }
+    $kegiatanId = $laporan->kegiatan_id;
 
     $laporan->delete();
 
-    return back()->with('success', 'Dokumen berhasil dihapus');
+    return redirect()
+        ->route('kegiatan.show', $kegiatanId)
+        ->with('success', 'Laporan berhasil dihapus');
 }
+
 
 
 

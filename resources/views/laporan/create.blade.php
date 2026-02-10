@@ -144,12 +144,12 @@ FORM UPLOAD (UMUM)
             <div class="mb-3">
                 <label class="form-label">Link Laporan</label>
                 <input type="url"
-                    name="link"
-                    class="form-control @error('link') is-invalid @enderror"
-                    value="{{ old('link') }}"
+                    name="link_laporan"
+                    class="form-control @error('link_laporan') is-invalid @enderror"
+                    value="{{ old('link_laporan') }}"
                     required>
 
-                @error('link')
+                @error('link_laporan')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -163,31 +163,6 @@ FORM UPLOAD (UMUM)
         </form>
     </div>
 </div>
-
-<!-- Modal Preview -->
-<div class="modal fade" id="previewModal" tabindex="-1">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Preview Laporan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body p-0">
-                <iframe id="previewFrame"
-                        src=""
-                        width="100%"
-                        height="600"
-                        frameborder="0"
-                        allowfullscreen>
-                </iframe>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 @endsection
 
 @push('scripts')

@@ -14,7 +14,8 @@ class KegiatanController extends Controller
     {
         $tahun = 2026;
         $tahapan = Tahapan::where('kegiatan_id', $kegiatan->id)->orderBy('urutan')->get();
-        $triwulan = [1,2,3,4];
+        $triwulan = ['I', 'II', 'III', 'IV'];
+        $iku = $kegiatan->iku; // relasi
 
         $laporan = Laporan::where('kegiatan_id', $kegiatan->id)
             ->where('tahun', $tahun)
@@ -22,7 +23,7 @@ class KegiatanController extends Controller
             ->keyBy(fn ($l) => $l->tahapan_id.'-'.$l->triwulan);
 
         return view('laporan.matriks', compact(
-            'kegiatan', 'tahapan', 'triwulan', 'laporan', 'tahun'
+            'iku', 'kegiatan', 'tahapan', 'triwulan', 'laporan', 'tahun'
         ));
     }
 }

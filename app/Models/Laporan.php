@@ -12,7 +12,7 @@ class Laporan extends Model
         'judul',
         'triwulan',
         'tahun',
-        'link',
+        'link_laporan',
         'isi',
         'uploaded_by'
     ];
