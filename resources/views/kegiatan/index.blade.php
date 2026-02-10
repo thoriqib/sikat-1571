@@ -56,15 +56,14 @@
                     <td>
                         <div class="progress">
                             <div class="progress-bar
-                                {{ $k->persentase < 100 ? 'bg-warning' : 'bg-success' }}"
+                                {{ $k->persentase < 70 ? ($k->persentase < 40? 'bg-danger' : 'bg-warning') : 'bg-success' }}"
                                 style="width: {{ $k->persentase }}%">
                                 {{ $k->persentase }}%
                             </div>
                         </div>
                         <small class="text-muted">
-                            {{ $k->terisi }} laporan terisi
+                            {{ $k->laporan_terisi }} dari {{ $k->target_laporan }} laporan terisi
                         </small>
-                    </td>
                     <td>
                         <a href="{{ route('kegiatan.show', $k->id) }}"
                            class="btn btn-sm btn-primary">

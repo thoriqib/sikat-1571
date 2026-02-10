@@ -12,12 +12,37 @@ class DashboardController extends Controller
     {
         $tahun = 2026;
 
-        // hitung total file laporan yang sudah diupload
+        // total seluruh file laporan
         $totalFile = Laporan::where('tahun', $tahun)
             ->whereNotNull('link_laporan')
             ->count();
 
-        $iku = Iku::withCount('kegiatan')->get();
+        $iku = Iku::with([
+            'kegiatan.tahapan',
+            'kegiatan.laporan' => function ($q) use ($tahun) {
+                $q->where('tahun', $tahun)
+                  ->whereNotNull('link_laporan');
+            }
+        ])->get();
+
+        $iku->each(function ($i) {
+            $target = 0;
+            $uploaded = 0;
+
+            foreach ($i->kegiatan as $kegiatan) {
+                $targetKegiatan = $kegiatan->tahapan->count() * 4;
+                $uploadedKegiatan = $kegiatan->laporan->count();
+
+                $target += $targetKegiatan;
+                $uploaded += $uploadedKegiatan;
+            }
+
+            $i->target_laporan = $target;
+            $i->uploaded_laporan = $uploaded;
+            $i->persentase = $target > 0
+                ? round(($uploaded / $target) * 100)
+                : 0;
+        });
 
         return view('dashboard', compact(
             'iku',
@@ -26,27 +51,43 @@ class DashboardController extends Controller
         ));
     }
 
-    public function kegiatan(Iku $iku)
+        public function kegiatan(Iku $iku)
     {
         $tahun = 2026;
 
         $kegiatan = $iku->kegiatan()
-            ->withCount([
-                'laporan as laporan_terisi' => function ($q) use ($tahun) {
+            ->with([
+                'tahapan',
+                'laporan' => function ($q) use ($tahun) {
                     $q->where('tahun', $tahun)
-                    ->whereNotNull('link_laporan');
+                      ->whereNotNull('link_laporan');
                 }
             ])
             ->get();
 
+        $kegiatan->each(function ($k) {
+            $target = $k->tahapan->count() * 4;
+            $uploaded = $k->laporan->count();
+
+            $k->target_laporan = $target;
+            $k->laporan_terisi = $uploaded;
+            $k->persentase = $target > 0
+                ? round(($uploaded / $target) * 100)
+                : 0;
+        });
+
         $totalFile = Laporan::where('tahun', $tahun)
-                    ->whereNotNull('link_laporan')
-                    ->whereHas('kegiatan', function ($q) use ($iku) {
-                        $q->where('iku_id', $iku->id);
-                    })
-                    ->count();
+            ->whereNotNull('link_laporan')
+            ->whereHas('kegiatan', function ($q) use ($iku) {
+                $q->where('iku_id', $iku->id);
+            })
+            ->count();
 
-        return view('kegiatan.index', compact('iku', 'kegiatan', 'tahun', 'totalFile'));
+        return view('kegiatan.index', compact(
+            'iku',
+            'kegiatan',
+            'tahun',
+            'totalFile'
+        ));
     }
-
 }

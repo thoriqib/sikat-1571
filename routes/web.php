@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\AdminIkuController;
+use App\Http\Controllers\AdminKegiatanController;
+use App\Http\Controllers\AdminTahapanController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +25,6 @@ use App\Http\Controllers\LaporanController;
 // =====================
 // IKU (Matrix Tahapan x Triwulan)
 // =====================
-Route::get('/iku/{id}', [IkuController::class, 'show'])
-    ->name('iku.show');
-
 //Route::middleware(['auth'])->group(function () {
 
     // 1️⃣ Dashboard IKU
@@ -75,5 +76,25 @@ Route::put('/laporan/{laporan}', [LaporanController::class, 'update'])
 // Delete
 Route::delete('/laporan/{laporan}', [LaporanController::class, 'destroy'])
     ->name('laporan.destroy');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    // IKU
+    Route::resource('iku', AdminIkuController::class);
+
+    // Kegiatan per IKU
+    Route::get('iku/{iku}/kegiatan', [AdminKegiatanController::class, 'index'])
+        ->name('kegiatan.index');
+    Route::resource('kegiatan', AdminKegiatanController::class)
+        ->except(['index']);
+
+    // Tahapan per Kegiatan
+    Route::get('kegiatan/{kegiatan}/tahapan', [AdminTahapanController::class, 'index'])
+        ->name('tahapan.index');
+    Route::resource('tahapan', AdminTahapanController::class)
+        ->except(['index']);
+});
+
+
 
 

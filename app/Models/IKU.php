@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class IKU extends Model
 {
     protected $fillable = [
+        'kode',
         'nama',
         'satuan',
         'target',

@@ -46,13 +46,13 @@
                     <td>
                         <div class="progress">
                             <div class="progress-bar
-                                {{ $i->persentase < 100 ? 'bg-warning' : 'bg-success' }}"
+                                {{ $i->persentase < 70 ? ($i->persentase < 40? 'bg-danger' : 'bg-warning') : 'bg-success' }}"
                                 style="width: {{ $i->persentase }}%">
                                 {{ $i->persentase }}%
                             </div>
                         </div>
                         <small class="text-muted">
-                            {{ $i->terisi }} laporan terisi
+                            {{ $i->uploaded_laporan }} dari {{ $i->target_laporan }} laporan terisi
                         </small>
                     </td>
                     <td>
