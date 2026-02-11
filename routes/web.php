@@ -95,6 +95,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->except(['index']);
 });
 
+Route::post('/set-tahun', function (\Illuminate\Http\Request $request) {
+    session(['tahun_aktif' => $request->tahun]);
+    return back();
+})->name('set.tahun');
 
 
 

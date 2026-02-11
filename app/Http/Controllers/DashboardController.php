@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $tahun = 2026;
+        $tahun = session('tahun_aktif', 2026);
 
         // total seluruh file laporan
         $totalFile = Laporan::where('tahun', $tahun)
@@ -53,7 +53,7 @@ class DashboardController extends Controller
 
         public function kegiatan(Iku $iku)
     {
-        $tahun = 2026;
+        $tahun = session('tahun_aktif', 2026);
 
         $kegiatan = $iku->kegiatan()
             ->with([

@@ -25,6 +25,23 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                    Tahun: {{ session('tahun_aktif', 2026) }}
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    @foreach([2024,2025,2026] as $t)
+                        <form action="{{ route('set.tahun') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="tahun" value="{{ $t }}">
+                            <button class="dropdown-item">
+                                {{ $t }}
+                            </button>
+                        </form>
+                    @endforeach
+                </div>
+            </li>
             <li class="nav-item">
                 <span class="nav-link text-muted">
                     Sistem Informasi Kinerja BPS Kota Jambi

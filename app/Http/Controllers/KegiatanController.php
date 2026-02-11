@@ -12,7 +12,7 @@ class KegiatanController extends Controller
 {
        public function show(Kegiatan $kegiatan)
     {
-        $tahun = 2026;
+        $tahun = session('tahun_aktif', 2026);
         $tahapan = Tahapan::where('kegiatan_id', $kegiatan->id)->orderBy('urutan')->get();
         $triwulan = ['I', 'II', 'III', 'IV'];
         $iku = $kegiatan->iku; // relasi
