@@ -7,28 +7,32 @@ use Illuminate\Database\Eloquent\Model;
 class Laporan extends Model
 {
     protected $fillable = [
-        'iku_id',
+        'kegiatan_id',
         'tahapan_id',
         'judul',
         'triwulan',
         'tahun',
-        'file_path',
-        'file_original_name',
-        'file_size',
-        'file_mime',
+        'link_laporan',
         'isi',
+        'uploaded_by'
     ];
 
     protected $table = 'laporan';
 
-    public function iku()
+    public function kegiatan()
     {
-        return $this->belongsTo(Iku::class,'iku_id');
+        return $this->belongsTo(Kegiatan::class);
     }
+
 
     public function tahapan()
     {
         return $this->belongsTo(Tahapan::class, 'tahapan_id');
+    }
+
+    public function uploader()
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
     }
 
     // Helper untuk URL file

@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
         UserSeeder::class,   // ⬅️ HARUS ADA
         TahapanSeeder::class,   // ⬅️ HARUS ADA
         IkuSeeder::class,
-        IkuUserSeeder::class,
     ]);
 }
 }

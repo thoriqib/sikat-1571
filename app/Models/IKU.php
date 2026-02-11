@@ -6,21 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Iku extends Model
 {
-    protected $table = 'iku';
-
     protected $fillable = [
-        'kode', 'nama', 'satuan', 'target', 'tahun'
+        'kode',
+        'nama',
+        'satuan',
+        'target',
+        'tahun',
     ];
 
+    protected $table = 'iku';
 
     public function pjs()
     {
         return $this->belongsToMany(User::class, 'iku_user');
     }
 
-    public function laporan()
+    public function kegiatan()
     {
-        return $this->hasMany(Laporan::class);
+        return $this->hasMany(Kegiatan::class, 'iku_id');
     }
+
+
 }
 

@@ -13,4 +13,9 @@ class Tahapan extends Model
     {
         return $this->hasMany(Laporan::class, 'tahapan_id');
     }
+
+    public function kegiatan()
+    {
+        return $this->belongsTo(Kegiatan::class);
+    }
 }

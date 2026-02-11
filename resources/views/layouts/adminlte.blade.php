@@ -25,6 +25,23 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                    Tahun: {{ session('tahun_aktif', 2026) }}
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    @foreach([2024,2025,2026] as $t)
+                        <form action="{{ route('set.tahun') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="tahun" value="{{ $t }}">
+                            <button class="dropdown-item">
+                                {{ $t }}
+                            </button>
+                        </form>
+                    @endforeach
+                </div>
+            </li>
             <li class="nav-item">
                 <span class="nav-link text-muted">
                     Sistem Informasi Kinerja BPS Kota Jambi
@@ -96,6 +113,11 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+<link rel="stylesheet"
+ href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 @stack('js')
 @stack('scripts')

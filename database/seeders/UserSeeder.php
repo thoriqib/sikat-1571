@@ -30,6 +30,15 @@ class UserSeeder extends Seeder
             ]
         );
 
+        User::updateOrCreate(
+            ['email' => 'kelik.heri@bps.go.id'],
+            [
+                'name' => 'Kelik Heri Purnomo',
+                'role' => 'admin',
+                'password' => Hash::make('12345678'),
+            ]
+        );
+
         // ======================
         // PENANGGUNG JAWAB TIM
         // ======================
@@ -41,14 +50,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('12345678'),
             ]
         );
-        User::updateOrCreate(
-            ['email' => 'kelik.heri@bps.go.id'],
-            [
-                'name' => 'Kelik Heri Purnomo',
-                'role' => 'pj',
-                'password' => Hash::make('12345678'),
-            ]
-        );
+        
         User::updateOrCreate(
             ['email' => 'diah.sari@bps.go.id'],
             [
@@ -129,5 +131,22 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('12345678'),
             ]
         );
+        User::updateOrCreate(
+            ['email' => 'asrifah@bps.go.id'],
+            [
+                'name' => 'Asrifah',
+                'role' => 'user',
+                'password' => Hash::make('12345678'),
+            ]
+        );
+        User::updateOrCreate(
+            ['email' => 'salman.assad@bps.go.id'],
+            [
+                'name' => 'Salman Assad Ibrahim',
+                'role' => 'user',
+                'password' => Hash::make('12345678'),
+            ]
+        );
     }
 }
+        
