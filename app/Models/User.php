@@ -58,6 +58,6 @@ class User extends Authenticatable
 
     public function kegiatan()
     {
-        return $this->hasMany(Kegiatan::class);
+        return $this->hasMany(Kegiatan::class, 'pj_id');
     }
 }

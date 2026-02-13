@@ -30,6 +30,28 @@ class Laporan extends Model
         return $this->belongsTo(Tahapan::class, 'tahapan_id');
     }
 
+    public function scopeTahun($query, $tahun)
+{
+    return $query->where('tahun', $tahun);
+}
+
+public function scopeWithFile($query)
+{
+    return $query->whereNotNull('link_laporan');
+}
+
+public function scopeVisibleKegiatan($query)
+{
+    if (!auth()->user()->isAdmin()) {
+        return $query->whereHas('kegiatan', function ($q) {
+            $q->where('pj_id', auth()->id());
+        });
+    }
+
+    return $query;
+}
+
+
     public function uploader()
     {
         return $this->belongsTo(User::class, 'uploaded_by');

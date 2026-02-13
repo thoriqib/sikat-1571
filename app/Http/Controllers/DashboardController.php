@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Iku;
 use App\Models\Laporan;
 use App\Models\Tahapan;
+use App\Models\Kegiatan;
 
 class DashboardController extends Controller
 {
@@ -17,13 +19,15 @@ class DashboardController extends Controller
             ->whereNotNull('link_laporan')
             ->count();
 
-        $iku = Iku::with([
-            'kegiatan.tahapan',
-            'kegiatan.laporan' => function ($q) use ($tahun) {
-                $q->where('tahun', $tahun)
-                  ->whereNotNull('link_laporan');
-            }
-        ])->get();
+        $iku = Iku::query()
+        ->when(!auth()->user()->isAdmin(), function ($query) use ($tahun) {
+            $query->whereHas('kegiatan', function ($q) use ($tahun) {
+                $q->where('pj_id', auth()->id())
+                  ->where('tahun', $tahun);
+            });
+        })
+        ->where('tahun', $tahun)
+        ->get();
 
         $iku->each(function ($i) {
             $target = 0;
@@ -52,42 +56,49 @@ class DashboardController extends Controller
     }
 
         public function kegiatan(Iku $iku)
-    {
-        $tahun = session('tahun_aktif', 2026);
+        {
+            $tahun = session('tahun_aktif', 2026);
 
-        $kegiatan = $iku->kegiatan()
-            ->with([
+            $kegiatan = Kegiatan::where('iku_id', $iku->id)
+    ->visible()
+ // 🔐 filter berdasarkan role
+                ->withTahapanDanLaporan($tahun) // 🔄 eager loading custom
+                ->get()
+                ->map(fn ($k) => $k->hitungProgress());
+
+            $totalFile = Laporan::tahun($tahun)
+                ->withFile()
+                ->whereHas('kegiatan', fn ($q) => $q->where('iku_id', $iku->id))
+                ->visibleKegiatan() // 🔐 hanya kegiatan yg boleh dilihat
+                ->count();
+
+            return view('kegiatan.index', compact(
+                'iku',
+                'kegiatan',
+                'tahun',
+                'totalFile'
+            ));
+        }
+
+        public function scopeVisible($query)
+        {
+            if (!auth()->user()->isAdmin()) {
+                return $query->where('pj_id', auth()->id());
+            }
+
+            return $query;
+        }
+
+        public function scopeWithTahapanDanLaporan($query, $tahun)
+        {
+            return $query->with([
                 'tahapan',
                 'laporan' => function ($q) use ($tahun) {
                     $q->where('tahun', $tahun)
-                      ->whereNotNull('link_laporan');
+                    ->whereNotNull('link_laporan');
                 }
-            ])
-            ->get();
+            ]);
+        }
 
-        $kegiatan->each(function ($k) {
-            $target = $k->tahapan->count() * 4;
-            $uploaded = $k->laporan->count();
 
-            $k->target_laporan = $target;
-            $k->laporan_terisi = $uploaded;
-            $k->persentase = $target > 0
-                ? round(($uploaded / $target) * 100)
-                : 0;
-        });
-
-        $totalFile = Laporan::where('tahun', $tahun)
-            ->whereNotNull('link_laporan')
-            ->whereHas('kegiatan', function ($q) use ($iku) {
-                $q->where('iku_id', $iku->id);
-            })
-            ->count();
-
-        return view('kegiatan.index', compact(
-            'iku',
-            'kegiatan',
-            'tahun',
-            'totalFile'
-        ));
-    }
 }
