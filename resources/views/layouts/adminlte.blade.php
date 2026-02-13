@@ -25,6 +25,11 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                <span class="nav-link text-muted">
+                    Sistem Informasi Kinerja BPS Kota Jambi
+                </span>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                     Tahun: {{ session('tahun_aktif', 2026) }}
@@ -42,11 +47,22 @@
                     @endforeach
                 </div>
             </li>
-            <li class="nav-item">
-                <span class="nav-link text-muted">
-                    Sistem Informasi Kinerja BPS Kota Jambi
-                </span>
-            </li>
+            <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+        <i class="fas fa-user"></i> {{ auth()->user()->name }}
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right">
+
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="dropdown-item">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+        </form>
+
+    </div>
+</li>
         </ul>
     </nav>
 
@@ -77,6 +93,71 @@
                             <p>Upload Laporan</p>
                         </a>
                     </li>
+
+                    @auth
+@if(auth()->user()->isAdmin())
+
+<li class="nav-header">ADMIN</li>
+
+        {{-- MASTER DATA --}}
+        <li class="nav-item has-treeview 
+            {{ request()->routeIs('admin.iku.*') ? 'menu-open' : '' }}">
+
+            <a href="#" class="nav-link 
+                {{ request()->routeIs('admin.iku.*') ? 'active' : '' }}">
+
+                <i class="nav-icon fas fa-database"></i>
+                <p>
+                    Master Data
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+
+            <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.iku.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.iku.*') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>IKU</p>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+
+        {{-- MANAJEMEN USER --}}
+        <li class="nav-item has-treeview 
+            {{ request()->routeIs('admin.users.*') ? 'menu-open' : '' }}">
+
+            <a href="#" class="nav-link 
+                {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+
+                <i class="nav-icon fas fa-users-cog"></i>
+                <p>
+                    Manajemen User
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+
+            <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Data User</p>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+        @endif
+        @endauth
+
+
 
                 </ul>
             </nav>

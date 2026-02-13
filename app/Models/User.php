@@ -51,6 +51,11 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'uploaded_by');
     }
 
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
     public function kegiatan()
     {
         return $this->hasMany(Kegiatan::class);
