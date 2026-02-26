@@ -7,6 +7,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AdminIkuController;
 use App\Http\Controllers\AdminKegiatanController;
 use App\Http\Controllers\AdminTahapanController;
+use App\Http\Controllers\AdminUserController;
 
 
 /*
@@ -109,13 +110,4 @@ Route::get('/api/kegiatan/{kegiatan}/tahapan', function ($kegiatanId) {
         ->orderBy('urutan')
         ->get();
 });
-
-
-
-// =====================
-// Laporan (Upload)
-// =====================
-
-    
-
 
