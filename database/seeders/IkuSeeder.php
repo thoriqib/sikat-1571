@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Iku;
+use App\Models\IKU;
 
 class IkuSeeder extends Seeder
 {
