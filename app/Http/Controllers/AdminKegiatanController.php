@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Iku;
+use App\Models\IKU;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
@@ -23,7 +23,7 @@ class AdminKegiatanController extends Controller
             'nama' => 'required',
         ]);
 
-        Iku::create($request->only('kode','nama'));
+        IKU::create($request->only('kode','nama'));
 
         return back()->with('success','IKU berhasil ditambahkan');
     }

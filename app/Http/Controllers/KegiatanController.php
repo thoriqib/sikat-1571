@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Iku;
+use App\Models\IKU;
 use App\Models\Tahapan;
 use App\Models\Laporan;
 use App\Models\Kegiatan;

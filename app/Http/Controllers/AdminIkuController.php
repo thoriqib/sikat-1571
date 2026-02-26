@@ -2,14 +2,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Iku;
+use App\Models\IKU;
 use Illuminate\Http\Request;
 
 class AdminIkuController extends Controller
 {
     public function index()
     {
-        $iku = Iku::orderBy('kode')->get();
+        $iku = IKU::orderBy('kode')->get();
         return view('admin.iku.index', compact('iku'));
     }
 
@@ -23,7 +23,7 @@ class AdminIkuController extends Controller
         'tahun' => 'required|integer',
     ]);
 
-        Iku::create($request->all());
+        IKU::create($request->all());
 
         return redirect()->back()->with('success', 'IKU berhasil ditambahkan');
     }

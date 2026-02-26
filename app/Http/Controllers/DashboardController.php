@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Iku;
+use App\Models\IKU;
 use App\Models\Laporan;
 use App\Models\Tahapan;
 use App\Models\Kegiatan;
@@ -19,7 +19,7 @@ class DashboardController extends Controller
             ->whereNotNull('link_laporan')
             ->count();
 
-        $iku = Iku::query()
+        $iku = IKU::query()
         ->when(!auth()->user()->isAdmin(), function ($query) use ($tahun) {
             $query->whereHas('kegiatan', function ($q) use ($tahun) {
                 $q->where('pj_id', auth()->id())

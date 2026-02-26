@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Laporan;
 use App\Models\Kegiatan;
 use App\Models\Tahapan;
-use App\Models\Iku;
+use App\Models\IKU;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -33,7 +33,7 @@ public function create(Request $request)
         'tahapan'   => $tahapan,
         'triwulan'  => $request->triwulan,
         'tahun'     => $request->tahun ?? now()->year,
-        'ikus'   => Iku::orderBy('kode')->get(),
+        'ikus'   => IKU::orderBy('kode')->get(),
         'kegiatanList' => Kegiatan::orderBy('nama')->get(),
         'tahapanList'  => Tahapan::orderBy('nama')->get(),
         'triwulanList' => ['I','II','III','IV'],
