@@ -115,7 +115,7 @@ class IkuSeeder extends Seeder
         ];
 
         foreach ($data as $item) {
-            Iku::create([
+            IKU::create([
                 'kode' => $item['kode'],
                 'nama' => $item['nama'],
                 'satuan' => $item['satuan'],
