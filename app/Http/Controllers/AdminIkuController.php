@@ -16,12 +16,13 @@ class AdminIkuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'kode' => 'required',
-        'nama' => 'required',
-        'satuan' => 'required|in:persen,poin',
-        'target' => 'required|integer',
-        'tahun' => 'required|integer',
-    ]);
+            'kode' => 'required',
+            'nama' => 'required',
+            'satuan' => 'required|in:persen,poin',
+            'target' => 'required|numeric',
+            'realisasi' => 'numeric',
+            'tahun' => 'required|integer',
+        ]);
 
         IKU::create($request->all());
 
@@ -31,11 +32,16 @@ class AdminIkuController extends Controller
     public function update(Request $request, Iku $iku)
     {
         $request->validate([
-            'kode' => 'required|unique:iku,kode,' . $iku->id,
+            'kode' => 'required',
             'nama' => 'required',
+            'satuan' => 'required|in:persen,poin',
+            'target' => 'required|numeric',
+            'realisasi' => 'numeric',
+            'tahun' => 'required|integer',
         ]);
 
-        $iku->update($request->only('kode','nama'));
+
+        $iku->update($request->all());
 
         return back()->with('success','IKU berhasil diupdate');
     }

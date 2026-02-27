@@ -7,7 +7,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AdminIkuController;
 use App\Http\Controllers\AdminKegiatanController;
 use App\Http\Controllers\AdminTahapanController;
-use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -19,8 +19,7 @@ use App\Http\Controllers\AdminUserController;
 // =====================
 // Dashboard
 // =====================
-// Route::get('/', [DashboardController::class, 'index'])
-//     ->name('dashboard');
+
 
 use App\Http\Controllers\AuthController;
 
@@ -40,6 +39,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
 // IKU (Matrix Tahapan x Triwulan)
 // =====================
 Route::middleware(['auth'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     // 1️⃣ Dashboard IKU
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('tahapan', AdminTahapanController::class)
             ->except(['index']);
 
-        Route::resource('users', AdminUserController::class);
+        Route::resource('users', UserController::class);
     });
 
     Route::post('/set-tahun', function (\Illuminate\Http\Request $request) {

@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\IKU;
 use App\Models\Kegiatan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminKegiatanController extends Controller
 {
     public function index(Iku $iku)
     {
-        $kegiatan = $iku->kegiatan()->orderBy('nama')->get();
-        return view('admin.kegiatan.index', compact('iku','kegiatan'));
+        $kegiatan = $iku->kegiatan()->with('pj')->orderBy('nama')->get();
+        $users = User::orderBy('name')->get();
+
+        return view('admin.kegiatan.index', compact('iku', 'kegiatan', 'users'));
     }
 
 
@@ -19,30 +22,39 @@ class AdminKegiatanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode' => 'required|unique:iku,kode',
-            'nama' => 'required',
+            'iku_id' => 'required|exists:iku,id',
+            'nama'   => 'required|string',
+            'pj_id'  => 'nullable|exists:users,id',
         ]);
 
-        IKU::create($request->only('kode','nama'));
+        Kegiatan::create([
+            'iku_id' => $request->iku_id,
+            'nama'   => $request->nama,
+            'pj_id'  => $request->pj_id,
+        ]);
 
-        return back()->with('success','IKU berhasil ditambahkan');
+        return back()->with('success', 'Kegiatan berhasil ditambahkan.');
     }
 
-    public function update(Request $request, Iku $iku)
+    public function update(Request $request, Kegiatan $kegiatan)
     {
         $request->validate([
-            'kode' => 'required|unique:iku,kode,' . $iku->id,
-            'nama' => 'required',
+            'nama'  => 'required|string',
+            'pj_id' => 'nullable|exists:users,id',
         ]);
 
-        $iku->update($request->only('kode','nama'));
+        $kegiatan->update([
+            'nama'  => $request->nama,
+            'pj_id' => $request->pj_id,
+        ]);
 
-        return back()->with('success','IKU berhasil diupdate');
+        return back()->with('success', 'Kegiatan berhasil diupdate.');
     }
 
-    public function destroy(Iku $iku)
+    public function destroy(Kegiatan $kegiatan)
     {
-        $iku->delete();
-        return back()->with('success','IKU berhasil dihapus');
+        $kegiatan->delete();
+
+        return back()->with('success', 'Kegiatan berhasil dihapus.');
     }
 }

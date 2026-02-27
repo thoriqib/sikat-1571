@@ -37,12 +37,17 @@
             <label>Target</label>
             <input type="number" name="target" class="form-control" required>
           </div>
+          <div class="form-group">
+              <label>Realisasi</label>
+              <input type="number" name="realisasi" class="form-control">
+          </div>
 
           <div class="form-group">
             <label>Tahun</label>
             <input type="number" name="tahun" class="form-control"
                    value="{{ date('Y') }}" required>
           </div>
+
 
         </div>
 

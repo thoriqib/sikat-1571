@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kegiatan extends Model
 {
-    protected $table = 'kegiatan';  
+    protected $table = 'kegiatan'; 
+    protected $fillable = ['iku_id', 'nama', 'pj_id']; 
     public function iku()
     {
         return $this->belongsTo(IKU::class);

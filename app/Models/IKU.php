@@ -11,6 +11,7 @@ class IKU extends Model
         'nama',
         'satuan',
         'target',
+        'realisasi',
         'tahun',
     ];
 

@@ -43,6 +43,11 @@
           </div>
 
           <div class="form-group">
+              <label>Realisasi</label>
+              <input type="number" name="realisasi" value="{{ $i->realisasi }}" class="form-control" required>
+          </div>
+
+          <div class="form-group">
             <label>Tahun</label>
             <input type="number" name="tahun" value="{{$i->tahun}}" class="form-control"
                    value="{{ date('Y') }}" required>
