@@ -8,7 +8,7 @@
         @method('PUT')
 
         <div class="modal-header">
-          <h5 class="modal-title">Edit IKU</h5>
+          <h5 class="modal-title">Edit Kegiatan</h5>
           <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>

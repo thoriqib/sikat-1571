@@ -35,8 +35,6 @@
                        class="btn btn-sm btn-info">
                        <i class="fas fa-layer-group"></i> Tahapan
                     </a>
-                </td>
-                <td>
                     <!-- Edit -->
                     <button class="btn btn-sm btn-warning"
                         data-toggle="modal"

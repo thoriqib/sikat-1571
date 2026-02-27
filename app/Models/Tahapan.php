@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tahapan extends Model
 {
-    protected $fillable = ['nama'];
+    protected $fillable = ['kegiatan_id','nama', 'urutan'];
     protected $table = 'tahapan';
 
     public function laporan()

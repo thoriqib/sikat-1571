@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\IKU;
 use App\Models\Kegiatan;
+use App\Models\Tahapan;
 use Illuminate\Http\Request;
 
 class AdminTahapanController extends Controller
@@ -18,30 +19,30 @@ class AdminTahapanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode' => 'required|unique:iku,kode',
+            'kegiatan_id' => 'required',
             'nama' => 'required',
+            'urutan' => 'required',
         ]);
 
-        IKU::create($request->only('kode','nama'));
+        Tahapan::create($request->only('kegiatan_id','nama', 'urutan' ));
 
-        return back()->with('success','IKU berhasil ditambahkan');
+        return back()->with('success','Tahapan berhasil ditambahkan');
     }
 
-    public function update(Request $request, Iku $iku)
+    public function update(Request $request, Tahapan $tahapan)
     {
         $request->validate([
-            'kode' => 'required|unique:iku,kode,' . $iku->id,
             'nama' => 'required',
         ]);
 
-        $iku->update($request->only('kode','nama'));
+        $tahapan->update($request->only('nama'));
 
-        return back()->with('success','IKU berhasil diupdate');
+        return back()->with('success','Tahapan berhasil diupdate');
     }
 
-    public function destroy(Iku $iku)
+    public function destroy(Tahapan $tahapan)
     {
-        $iku->delete();
-        return back()->with('success','IKU berhasil dihapus');
+        $tahapan->delete();
+        return back()->with('success','Tahapan berhasil dihapus');
     }
 }
