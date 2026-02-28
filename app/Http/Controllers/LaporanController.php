@@ -19,6 +19,10 @@ public function create(Request $request)
     $kegiatan = null;
     $tahapan  = null;
 
+     // ⬇️ TAMBAHKAN BARIS INI
+    $user = Auth::user();
+    $tahun = session('tahun_aktif', now()->year);
+
     if ($request->filled('kegiatan_id')) {
         $kegiatan = Kegiatan::with('iku')->findOrFail($request->kegiatan_id);
         $iku = $kegiatan->iku;
@@ -27,18 +31,31 @@ public function create(Request $request)
     if ($request->filled('tahapan_id')) {
         $tahapan = Tahapan::findOrFail($request->tahapan_id);
     }
+    if ($user->role === 'admin') {
+        $ikus = Iku::where('tahun', $tahun)
+            ->orderBy('kode')
+            ->get();
+    } else {
+        $ikus = Iku::where('tahun', $tahun)
+            ->whereHas('kegiatan', function ($q) use ($user) {
+                $q->where('pj_id', $user->id);
+            })
+            ->orderBy('kode')
+            ->get();
+    }
 
     return view('laporan.create', [
         'iku'       => $iku,
         'kegiatan'  => $kegiatan,
         'tahapan'   => $tahapan,
         'triwulan'  => $request->triwulan,
-        'tahun'     => $request->tahun ?? now()->year,
-        'ikus'   => IKU::orderBy('kode')->get(),
+        'tahun'     => $tahun,
+        'ikus'   => $ikus,
         'kegiatanList' => Kegiatan::orderBy('nama')->get(),
         'tahapanList'  => Tahapan::orderBy('nama')->get(),
         'triwulanList' => ['I','II','III','IV'],
         'uploaded_by'  => Auth::id(),
+        'user' => Auth::user()
     ]);
 }
 
