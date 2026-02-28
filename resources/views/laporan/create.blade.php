@@ -210,7 +210,7 @@ $(document).ready(function () {
 
         if (!ikuId) return;
 
-        $.get(`/api/iku/${ikuId}/kegiatan`, function (data) {
+        $.get(`/sikat/api/iku/${ikuId}/kegiatan`, function (data) {
             $('#kegiatan_id').append('<option value="">-- Pilih Kegiatan --</option>');
 
             data.forEach(item => {
@@ -233,7 +233,7 @@ $(document).ready(function () {
 
         if (!kegiatanId) return;
 
-        $.get(`/api/kegiatan/${kegiatanId}/tahapan`, function (data) {
+        $.get(`/sikat/api/kegiatan/${kegiatanId}/tahapan`, function (data) {
             $('#tahapan_id').append('<option value="">-- Pilih Tahapan --</option>');
 
             data.forEach(item => {

@@ -139,7 +139,7 @@ $('#tahun_sumber').on('change', function () {
 
     if (!tahun) return;
 
-    $.get(`/admin/api/iku-by-tahun/${tahun}`, function (data) {
+    $.get(`/sikat/admin/api/iku-by-tahun/${tahun}`, function (data) {
         if (!data.length) {
             $('#ikuList').html('<div class="col-12 text-muted">Tidak ada IKU di tahun ini.</div>');
         } else {
