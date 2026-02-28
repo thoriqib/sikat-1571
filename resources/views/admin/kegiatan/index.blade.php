@@ -39,14 +39,14 @@
                     <button class="btn btn-sm btn-warning"
                         data-toggle="modal"
                         data-target="#edit{{ $k->id }}">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-edit"></i> Edit
                     </button>
 
                     <!-- Delete -->
                     <button class="btn btn-sm btn-danger"
                         data-toggle="modal"
                         data-target="#hapus{{ $k->id }}">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-edit"></i> Hapus
                     </button>
                 </td>
             </tr>

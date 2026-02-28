@@ -19,7 +19,7 @@
         <div class="modal-footer justify-content-between">
           <button class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
           <button class="btn btn-danger btn-sm">
-            <i class="fas fa-trash"></i> Hapus
+            <i class="fas fa-edit"></i> Hapus Hapus
           </button>
         </div>
       </div>

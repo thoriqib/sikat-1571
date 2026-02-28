@@ -62,7 +62,7 @@
             {{-- Edit --}}
             <a href="{{ route('laporan.edit', $laporanItem->id) }}"
             class="btn btn-link text-warning p-0 m-1">
-                <i class="fas fa-edit"></i>
+                <i class="fas fa-edit"></i> Edit
             </a>
 
             {{-- Delete --}}
@@ -72,7 +72,7 @@
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-link text-danger p-0 m-1">
-                    <i class="fas fa-trash"></i>
+                    <i class="fas fa-edit"></i> Hapus
                 </button>
             </form>
 

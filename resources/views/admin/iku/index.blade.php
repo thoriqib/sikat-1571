@@ -18,6 +18,7 @@
                     <th>Nama IKU</th>
                     <th>Target</th>
                     <th>Realisasi</th>
+                    <th>Tahun</th>
                     <th width="180">Aksi</th>
                 </tr>
             </thead>
@@ -38,12 +39,12 @@
                         <button class="btn btn-sm btn-warning"
                             data-toggle="modal"
                             data-target="#edit{{ $i->id }}">
-                            <i class="fas fa-edit"></i>
+                            <i class="fas fa-edit"></i> Edit
                         </button>
                         <button class="btn btn-sm btn-danger"
                             data-toggle="modal"
                             data-target="#hapus{{ $i->id }}">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-edit"></i> Hapus
                         </button>
                     </td>
                 </tr>
