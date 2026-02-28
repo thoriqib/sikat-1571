@@ -28,6 +28,7 @@
                     <td>{{ $i->nama }}</td>
                     <td>{{ $i->target }}</td>
                     <td>{{ $i->realisasi ? $i->realisasi : '-' }}</td>
+                    <td>{{ $i->tahun }}</td>
                     <td>
                         <a href="{{ route('admin.kegiatan.index',$i->id) }}"
                            class="btn btn-sm btn-info">
