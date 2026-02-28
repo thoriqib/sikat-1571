@@ -8,6 +8,7 @@ use App\Models\Tahapan;
 use App\Models\IKU;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
