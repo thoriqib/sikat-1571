@@ -36,7 +36,7 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    @foreach([2024,2025,2026] as $t)
+                    @foreach([2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030] as $t)
                         <form action="{{ route('set.tahun') }}" method="POST">
                             @csrf
                             <input type="hidden" name="tahun" value="{{ $t }}">
