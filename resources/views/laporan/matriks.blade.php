@@ -54,7 +54,7 @@
                 class="btn btn-link text-success p-0 m-1"
                 onclick="previewLaporan(
                     '{{ $laporanItem->link_laporan }}',
-                    '{{ $kegiatan->nama }} – {{ $laporanItem->judul }} (TW {{ $laporanItem->triwulan }})'
+                    '{{ $kegiatan->nama }} – {{ $laporanItem->judul }} (TW {{ $laporanItem->triwulan }}) – Diupload oleh: {{ $laporanItem->uploader->name ?? '-' }}'
                 )">
                 <i class="fas fa-eye fa-lg"></i>
             </button>

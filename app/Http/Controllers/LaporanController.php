@@ -37,6 +37,7 @@ public function create(Request $request)
         'kegiatanList' => Kegiatan::orderBy('nama')->get(),
         'tahapanList'  => Tahapan::orderBy('nama')->get(),
         'triwulanList' => ['I','II','III','IV'],
+        'uploaded_by'  => Auth::id(),
     ]);
 }
 
