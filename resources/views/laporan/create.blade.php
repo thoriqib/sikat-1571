@@ -76,8 +76,8 @@ FORM UPLOAD (UMUM)
             @if (!$kegiatan)
             <div class="form-group">
                 <label>IKU</label>
-            <select name="iku_id"
-                    class="form-control select2" @error('iku_id') is-invalid @enderror">
+            <select id="iku_id" name="iku_id"
+                class="form-control select2 @error('iku_id') is-invalid @enderror">
                 <option value="">-- Pilih IKU --</option>
                 @foreach ($ikus as $iku)
                     <option value="{{ $iku->id }}" {{ old('iku_id') == $iku->id ? 'selected' : '' }}>
@@ -143,14 +143,22 @@ FORM UPLOAD (UMUM)
 
             <div class="mb-3">
                 <label class="form-label">Link Laporan</label>
-                <input type="url"
-                    name="link_laporan"
-                    class="form-control @error('link_laporan') is-invalid @enderror"
-                    value="{{ old('link_laporan') }}"
-                    required>
+                <div class="input-group">
+                    <input type="url"
+                        name="link_laporan"
+                        class="form-control @error('link_laporan') is-invalid @enderror"
+                        value="{{ old('link_laporan') }}"
+                        required>
+
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-info" id="btnPreview">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                    </div>
+                </div>
 
                 @error('link_laporan')
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback d-block">
                         {{ $message }}
                     </div>
                 @enderror
@@ -161,6 +169,24 @@ FORM UPLOAD (UMUM)
             </button>
 
         </form>
+    </div>
+</div>
+
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Preview Laporan</h5>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body p-0">
+                <iframe id="previewFrame"
+                        src=""
+                        width="100%"
+                        height="600"
+                        frameborder="0"></iframe>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -224,33 +250,32 @@ $(document).ready(function () {
 </script>
 
 <script>
-document.getElementById('btnPreview').addEventListener('click', function () {
-    const input = document.querySelector('input[name="link_laporan"]');
-    const url = input.value;
+const btn = document.getElementById('btnPreview');
 
-    if (!url) {
-        alert('Masukkan link Google Drive terlebih dahulu');
-        return;
-    }
+if (btn) {
+    btn.addEventListener('click', function () {
+        const input = document.querySelector('input[name="link_laporan"]');
+        const url = input.value;
 
-    const embedUrl = convertDriveLink(url);
+        if (!url) {
+            alert('Masukkan link Google Drive terlebih dahulu');
+            return;
+        }
 
-    if (!embedUrl) {
-        alert('Link Google Drive tidak valid');
-        return;
-    }
+        const embedUrl = convertDriveLink(url);
 
-    document.getElementById('previewFrame').src = embedUrl;
+        if (!embedUrl) {
+            alert('Link Google Drive tidak valid');
+            return;
+        }
 
-    const modal = new bootstrap.Modal(document.getElementById('previewModal'));
-    modal.show();
-});
+        document.getElementById('previewFrame').src = embedUrl;
+
+        $('#previewModal').modal('show'); // Bootstrap 4
+    });
+}
 
 function convertDriveLink(url) {
-    /*
-     Contoh link:
-     https://drive.google.com/file/d/FILE_ID/view?usp=sharing
-    */
     const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
     if (!match) return null;
 
