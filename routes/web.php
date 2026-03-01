@@ -87,7 +87,13 @@ Route::middleware(['auth'])->group(function () {
             ->except(['index']);
 
         Route::resource('users', UserController::class);
-        
+
+        Route::get('/api/iku-by-tahun/{tahun}', function ($tahun) {
+            return \App\Models\IKU::where('tahun', $tahun)
+                ->select('id','kode','nama')
+                ->orderBy('kode')
+                ->get();
+        });
     });
 
     Route::post('/set-tahun', function (\Illuminate\Http\Request $request) {
@@ -114,10 +120,5 @@ Route::get('/api/kegiatan/{kegiatan}/tahapan', function ($kegiatanId) {
         ->get();
 });
 
-Route::get('/admin/api/iku-by-tahun/{tahun}', function ($tahun) {
-    return \App\Models\Iku::where('tahun', $tahun)
-        ->select('id','kode','nama')
-        ->orderBy('kode')
-        ->get();
-});
+
 
