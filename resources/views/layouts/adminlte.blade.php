@@ -94,6 +94,37 @@
                         </a>
                     </li>
 
+                    <li class="nav-item has-treeview ">
+
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-database"></i>
+                            <p>
+                                Manajemen Risiko
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a href="https://sites.google.com/view/mr1500/risiko-strategis-2026"
+                                class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Lembar Kerja Manajemen Risiko BPS Kota Jambi</p>
+                                    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://s.bps.go.id/1571_MR2026"
+                                class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Rujukan BPS Provinsi Jambi</p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
                     @auth
 @if(auth()->user()->isAdmin())
 
